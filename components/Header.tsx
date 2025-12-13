@@ -1,0 +1,134 @@
+import Link from 'next/link';
+import { Rss, Mail, LayoutGrid, Sigma, User, Search, Globe, Box, Archive } from 'lucide-react';
+
+export default function Header() {
+  return (
+    <div className="w-full font-sans">
+      {/* 1. Top Bar (Top-most strip) */}
+      <div className="bg-[#505050] text-[#ccc] text-xs py-1">
+        <div className="container-custom flex justify-between items-center">
+          <div>渴望成为一个小飞侠</div>
+          <div className="flex space-x-2 divide-x divide-[#666]">
+            <Link href="/login" className="hover:text-white px-2">登录</Link>
+            <Link href="#" className="hover:text-white px-2">打赏</Link>
+            <Link href="#" className="hover:text-white px-2">公式</Link>
+            <Link href="#" className="hover:text-white px-2">天象</Link>
+            <Link href="#" className="hover:text-white px-2">链接</Link>
+            <Link href="#" className="hover:text-white px-2">时光</Link>
+            <Link href="#" className="hover:text-white px-2">博览</Link>
+            <Link href="#" className="hover:text-white px-2">归档</Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Main Header Area (Black Section) */}
+      <div className="bg-[#2a2a2a] text-white py-6">
+        <div className="container-custom flex flex-col md:flex-row items-center justify-between gap-4">
+          {/* Logo Area */}
+          <Link href="/" className="flex flex-col items-start hover:opacity-90 transition-opacity">
+            <h1 className="text-4xl text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
+            <span className="text-xs text-[#00bfff] tracking-[0.2em] mt-1">ZiAn's Space</span>
+          </Link>
+
+          {/* Icons Area */}
+          <div className="flex items-center space-x-6 text-[#ccc]">
+            <Link href="#" className="flex flex-col items-center group">
+              <Rss className="h-8 w-8 mb-1 group-hover:text-orange-500 transition-colors" />
+              <span className="text-xs">欢迎订阅</span>
+            </Link>
+            <Link href="#" className="flex flex-col items-center group">
+              <Mail className="h-8 w-8 mb-1 group-hover:text-blue-400 transition-colors" />
+              <span className="text-xs">个性邮箱</span>
+            </Link>
+            <Link href="#" className="flex flex-col items-center group">
+              <LayoutGrid className="h-8 w-8 mb-1 group-hover:text-green-400 transition-colors" />
+              <span className="text-xs">频道汇总</span>
+            </Link>
+            <Link href="#" className="flex flex-col items-center group">
+              <Sigma className="h-8 w-8 mb-1 group-hover:text-yellow-400 transition-colors" />
+              <span className="text-xs">LaTex</span>
+            </Link>
+            <Link href="/about" className="flex flex-col items-center group">
+              <User className="h-8 w-8 mb-1 group-hover:text-red-400 transition-colors" />
+              <span className="text-xs">关于博主</span>
+            </Link>
+          </div>
+
+          {/* Search/Welcome Box (Right-most) */}
+          <div className="bg-[#333] border border-[#444] p-3 rounded w-full md:w-64 text-xs text-[#999] relative hidden lg:block">
+            <div className="absolute top-0 right-0 w-0 h-0 border-t-[10px] border-r-[10px] border-t-white border-r-transparent transform rotate-90"></div>
+            <h3 className="text-white font-bold mb-1">欢迎你提交内容</h3>
+            <p className="leading-tight">
+              欢迎访问“梓安的思维空间”，这里将与您共同探讨技术，回味人生百态；也期待大家的分享~
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Main Navigation Bar (Dark Strip) */}
+      <nav className="bg-[#1a1a1a] border-t border-[#333] border-b border-black">
+        <div className="container-custom">
+          <ul className="flex flex-wrap justify-between text-[#ccc]">
+            {[
+              { name: '奇思妙想', en: 'Ideas' },
+              { name: '科幻解构', en: 'Sci-Fi' },
+              { name: '小说创作', en: 'Novel' },
+              { name: '奇妙物理', en: 'Physics' },
+              { name: '技术分享', en: 'Tech' },
+              { name: '创意项目', en: 'Projects' },
+              { name: '生活/情感', en: 'Life' },
+              { name: '好文精赏', en: 'Reading' },
+              { name: '好物推荐', en: 'Goods' },
+            ].map((item, index) => (
+              <li key={item.name} className="flex-1 text-center group border-r border-[#333] last:border-r-0">
+                <Link href={`/categories/${item.name}`} className="block py-3 hover:bg-[#f0c20c] hover:text-black transition-all duration-300">
+                  <div className="font-bold text-sm md:text-base">{item.name}</div>
+                  <div className="text-[10px] text-[#666] uppercase group-hover:text-black/70">{item.en}</div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      {/* 4. Info Area (Dark Area below Nav) */}
+      <div className="bg-[#222] border-b border-border shadow-sm mb-6">
+        <div className="container-custom py-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-secondary">
+          {/* Left Block */}
+          <div className="flex items-start space-x-3 border-r border-border pr-4">
+            <Globe className="h-10 w-10 text-blue-500 shrink-0" />
+            <div>
+              <p className="font-bold text-foreground">感谢 Vercel 提供网络空间</p>
+              <p className="text-xs mt-1">感谢开源社区提供的各种优秀工具库！</p>
+            </div>
+          </div>
+
+          {/* Middle Block */}
+          <div className="flex items-start space-x-3 border-r border-border pr-4">
+             <Box className="h-10 w-10 text-orange-500 shrink-0" />
+             <div>
+               <p className="font-bold text-foreground">知识共享署名-非商业性使用</p>
+               <p className="text-xs mt-1">转载本站内容必须遵循 署名-非商业用途-保持一致 的创作共用协议。</p>
+             </div>
+          </div>
+
+          {/* Right Block */}
+          <div className="flex flex-col space-y-2 pl-2">
+            <p className="font-bold text-foreground text-xs">参与梓安的思维空间</p>
+            <div className="flex space-x-2">
+               <Link href="/register" className="bg-[#6dbf46] hover:bg-[#5da53b] text-white px-3 py-1 rounded text-xs transition-colors">
+                 会员注册
+               </Link>
+               <Link href="/login" className="bg-[#6dbf46] hover:bg-[#5da53b] text-white px-3 py-1 rounded text-xs transition-colors">
+                 会员登录
+               </Link>
+               <Link href="/archives" className="bg-[#3b8cff] hover:bg-[#2a75e0] text-white px-3 py-1 rounded text-xs flex items-center transition-colors">
+                 <Archive className="h-3 w-3 mr-1" /> 全站归档
+               </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
