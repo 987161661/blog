@@ -1,3 +1,5 @@
+import { supabase } from './supabaseClient';
+
 export function getDaysSince(dateString: string): number {
   const date = new Date(dateString);
   const now = new Date();
@@ -17,37 +19,49 @@ export function getPseudoRandom(seed: string, min: number, max: number): number 
   return Math.abs(hash % range) + min;
 }
 
-export function calculateReadCount(slug: string, date: string): number {
-  if (typeof window === 'undefined') return 0; // Server-side return 0
+// ---------------------------------------------------------
+// Real Stats via Supabase
+// ---------------------------------------------------------
 
-  const daysSinceCreation = getDaysSince(date);
-  
-  // Deterministic random base (1-20)
-  const randomBase = getPseudoRandom(slug, 1, 20);
-
-  // Real reads from localStorage
-  const storageKey = `views_${slug}`;
-  let realReads = 0;
+// Get real view count (fallback to 0 if table doesn't exist yet)
+export async function getRealViewCount(slug: string): Promise<number> {
   try {
-    const stored = localStorage.getItem(storageKey);
-    realReads = stored ? parseInt(stored, 10) : 0;
-  } catch (e) {
-    console.error('Local storage error', e);
-  }
+    const { data, error } = await supabase
+      .from('post_views')
+      .select('view_count')
+      .eq('slug', slug)
+      .single();
 
-  return randomBase + (daysSinceCreation * 3) + realReads;
+    if (error) return 0;
+    return data?.view_count || 0;
+  } catch (e) {
+    return 0;
+  }
 }
 
-export function incrementReadCount(slug: string): void {
-  if (typeof window === 'undefined') return;
-
-  const storageKey = `views_${slug}`;
+// Increment view count via RPC (Safe & Atomic)
+export async function incrementRealViewCount(slug: string): Promise<void> {
   try {
-    const stored = localStorage.getItem(storageKey);
-    let realReads = stored ? parseInt(stored, 10) : 0;
-    realReads += 1;
-    localStorage.setItem(storageKey, realReads.toString());
+    await supabase.rpc('increment_view_count', { page_slug: slug });
   } catch (e) {
-    console.error('Local storage error', e);
+    console.error('Failed to increment view count:', e);
   }
+}
+
+// Get total registered users via RPC
+export async function getRealUserCount(): Promise<number> {
+  try {
+    const { data, error } = await supabase.rpc('get_user_count');
+    if (error) return 0;
+    return data as number;
+  } catch (e) {
+    return 0;
+  }
+}
+
+// Legacy function (kept for reference or hybrid use)
+export function calculateEstimatedReadCount(slug: string, date: string): number {
+  const daysSinceCreation = getDaysSince(date);
+  const randomBase = getPseudoRandom(slug, 1, 20);
+  return randomBase + (daysSinceCreation * 3);
 }

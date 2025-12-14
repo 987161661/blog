@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Eye, Clock, User } from 'lucide-react';
-import { calculateReadCount, incrementReadCount } from '@/lib/stats';
+import { incrementRealViewCount, getRealViewCount, calculateEstimatedReadCount } from '@/lib/stats';
 
 interface Props {
   slug: string;
@@ -20,12 +20,23 @@ export default function PostStats({ slug, date, contentLength }: Props) {
   useEffect(() => {
     setMounted(true);
     
-    // Increment count on view
-    incrementReadCount(slug);
-    
-    // Calculate total including the new increment
-    const total = calculateReadCount(slug, date);
-    setReadCount(total);
+    // 1. Calculate base ("legacy") heat
+    const estimatedBase = calculateEstimatedReadCount(slug, date);
+
+    // 2. Fetch real stats and increment
+    const updateStats = async () => {
+      // Increment first
+      await incrementRealViewCount(slug);
+      
+      // Fetch latest real count
+      const realCount = await getRealViewCount(slug);
+      
+      // Combine: Base Heat + Real Clicks
+      // This ensures we don't start at 0, but every new click is real
+      setReadCount(estimatedBase + realCount);
+    };
+
+    updateStats();
   }, [slug, date]);
 
   if (!mounted) {
