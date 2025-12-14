@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Rss, Mail, LayoutGrid, Sigma, User, Search, Globe, Box, Archive } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
@@ -10,7 +11,7 @@ export default function Header() {
         <div className="container-custom flex justify-between items-center">
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <span>渴望成为一个小飞侠</span>
+            <span>唯有思考方能启迪智慧</span>
           </div>
           <div className="flex space-x-2 divide-x divide-[#666]">
             <Link href="/login" className="hover:text-white px-2">登录</Link>
@@ -29,9 +30,19 @@ export default function Header() {
       <div className="bg-[#2a2a2a] text-white py-6">
         <div className="container-custom flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo Area */}
-          <Link href="/" className="flex flex-col items-start hover:opacity-90 transition-opacity">
-            <h1 className="text-4xl text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
-            <span className="text-xs text-[#00bfff] tracking-[0.2em] mt-1">ZiAn's Space</span>
+          <Link href="/" className="flex items-center gap-4 hover:opacity-90 transition-opacity">
+            <div className="relative w-16 h-16 shrink-0">
+               <Image 
+                 src="/logo.png" 
+                 alt="Logo" 
+                 fill
+                 className="object-contain"
+               />
+            </div>
+            <div className="flex flex-col items-start">
+              <h1 className="text-4xl text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
+              <span className="text-xs text-[#00bfff] tracking-[0.2em] mt-1">ZiAn's Space</span>
+            </div>
           </Link>
 
           {/* Icons Area */}
