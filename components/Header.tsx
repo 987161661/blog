@@ -9,13 +9,21 @@ export default function Header() {
       {/* 1. Top Bar (Top-most strip) */}
       <div className="bg-[#e8e4d9] dark:bg-[#505050] text-[#7d7065] dark:text-[#ccc] text-xs py-1 transition-colors duration-300">
         <div className="container-custom flex justify-between items-center">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <ThemeToggle />
-            <span>唯有思考方能启迪智慧</span>
+            <span className="hidden md:inline">唯有思考方能启迪智慧</span>
           </div>
+          
+          {/* Mobile Auth & Donate Buttons */}
+          <div className="flex md:hidden items-center space-x-2">
+            <Link href="/register" className="hover:text-[#d4a017] dark:hover:text-white px-1">注册</Link>
+            <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-1">登录</Link>
+            <Link href="/donate" className="hover:text-[#d4a017] dark:hover:text-white px-1">打赏</Link>
+          </div>
+
           <div className="hidden md:flex space-x-2 divide-x divide-[#b3a99f] dark:divide-[#666]">
             <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-2">登录</Link>
-            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">打赏</Link>
+            <Link href="/donate" className="hover:text-[#d4a017] dark:hover:text-white px-2">打赏</Link>
             <Link href="/latex" className="hover:text-[#d4a017] dark:hover:text-white px-2">公式</Link>
             <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">天象</Link>
             <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">链接</Link>
@@ -27,11 +35,11 @@ export default function Header() {
       </div>
 
       {/* 2. Main Header Area (Black Section) */}
-      <div className="bg-[#f7f5e8] dark:bg-[#2a2a2a] text-[#4a3e35] dark:text-white py-6 transition-colors duration-300">
+      <div className="bg-[#f7f5e8] dark:bg-[#2a2a2a] text-[#4a3e35] dark:text-white py-4 md:py-6 transition-colors duration-300">
         <div className="container-custom flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo Area */}
           <Link href="/" className="flex items-center gap-4 hover:opacity-90 transition-opacity">
-            <div className="relative w-16 h-16 shrink-0">
+            <div className="relative w-12 h-12 md:w-16 md:h-16 shrink-0">
                        <Image 
                          src="/logo.svg" 
                          alt="Logo" 
@@ -40,32 +48,32 @@ export default function Header() {
                        />
                     </div>
             <div className="flex flex-col items-start">
-              <h1 className="text-4xl text-[#d4a017] dark:text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
-              <span className="text-xs text-[#00bfff] tracking-[0.2em] mt-1">ZiAn's Space</span>
+              <h1 className="text-2xl md:text-4xl text-[#d4a017] dark:text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
+              <span className="text-[10px] md:text-xs text-[#00bfff] tracking-[0.2em] mt-1">ZiAn's Space</span>
             </div>
           </Link>
 
-          {/* Icons Area */}
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-[#7d7065] dark:text-[#ccc] w-full md:w-auto mt-4 md:mt-0">
+          {/* Icons Area - Blue Box: Smaller on mobile, unobtrusive */}
+          <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-[#7d7065] dark:text-[#ccc] w-full md:w-auto mt-2 md:mt-0 transform scale-90 md:scale-100 origin-center opacity-80 md:opacity-100">
             <Link href="#" className="flex flex-col items-center group">
-              <Rss className="h-8 w-8 mb-1 group-hover:text-orange-500 transition-colors" />
-              <span className="text-xs">欢迎订阅</span>
+              <Rss className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-orange-500 transition-colors" />
+              <span className="text-[10px] md:text-xs hidden md:block">欢迎订阅</span>
             </Link>
             <Link href="#" className="flex flex-col items-center group">
-              <Mail className="h-8 w-8 mb-1 group-hover:text-blue-400 transition-colors" />
-              <span className="text-xs">个性邮箱</span>
+              <Mail className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-blue-400 transition-colors" />
+              <span className="text-[10px] md:text-xs hidden md:block">个性邮箱</span>
             </Link>
             <Link href="#" className="flex flex-col items-center group">
-              <LayoutGrid className="h-8 w-8 mb-1 group-hover:text-green-400 transition-colors" />
-              <span className="text-xs">频道汇总</span>
+              <LayoutGrid className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-green-400 transition-colors" />
+              <span className="text-[10px] md:text-xs hidden md:block">频道汇总</span>
             </Link>
             <Link href="/latex" className="flex flex-col items-center group">
-              <Sigma className="h-8 w-8 mb-1 group-hover:text-yellow-400 transition-colors" />
-              <span className="text-xs">LaTex</span>
+              <Sigma className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-yellow-400 transition-colors" />
+              <span className="text-[10px] md:text-xs hidden md:block">LaTex</span>
             </Link>
             <Link href="/about" className="flex flex-col items-center group">
-              <User className="h-8 w-8 mb-1 group-hover:text-red-400 transition-colors" />
-              <span className="text-xs">关于博主</span>
+              <User className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-red-400 transition-colors" />
+              <span className="text-[10px] md:text-xs hidden md:block">关于博主</span>
             </Link>
           </div>
 
@@ -80,10 +88,10 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 3. Main Navigation Bar (Dark Strip) */}
+      {/* 3. Main Navigation Bar (Dark Strip) - Green Box: 2 rows on mobile */}
       <nav className="bg-[#e0dcd1] dark:bg-[#1a1a1a] border-t border-[#d4a017] dark:border-[#333] border-b border-[#c8c0b0] dark:border-black transition-colors duration-300">
         <div className="container-custom">
-          <ul className="flex flex-wrap text-[#5c5248] dark:text-[#ccc]">
+          <ul className="grid grid-cols-5 md:flex md:flex-wrap text-[#5c5248] dark:text-[#ccc]">
             {[
               { name: '奇思妙想', en: 'Ideas' },
               { name: '科幻解构', en: 'Sci-Fi' },
@@ -95,10 +103,10 @@ export default function Header() {
               { name: '好文精赏', en: 'Reading' },
               { name: '好物推荐', en: 'Goods' },
             ].map((item, index) => (
-              <li key={item.name} className="w-1/3 md:w-auto md:flex-1 text-center group border-r border-b md:border-b-0 border-[#333] md:last:border-r-0">
-                <Link href={`/categories/${item.name}`} className="block py-3 hover:bg-[#f0c20c] hover:text-black transition-all duration-300">
-                  <div className="font-bold text-sm md:text-base">{item.name}</div>
-                  <div className="text-[10px] text-[#666] uppercase group-hover:text-black/70">{item.en}</div>
+              <li key={item.name} className="text-center group border-r border-b md:border-b-0 border-[#333] md:last:border-r-0 md:flex-1">
+                <Link href={`/categories/${item.name}`} className="block py-1 md:py-3 hover:bg-[#f0c20c] hover:text-black transition-all duration-300 h-full flex flex-col justify-center">
+                  <div className="font-bold text-xs md:text-base">{item.name}</div>
+                  <div className="text-[8px] md:text-[10px] text-[#666] uppercase group-hover:text-black/70 hidden md:block">{item.en}</div>
                 </Link>
               </li>
             ))}
@@ -106,8 +114,8 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* 4. Info Area (Dark Area below Nav) */}
-      <div className="bg-[#222] border-b border-border shadow-sm mb-6">
+      {/* 4. Info Area (Dark Area below Nav) - Red Box: Hidden on mobile */}
+      <div className="hidden md:block bg-[#e8e4d9] dark:bg-[#222] border-b border-border shadow-sm mb-6 transition-colors duration-300">
         <div className="container-custom py-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-secondary">
           {/* Left Block */}
           <div className="flex items-start space-x-3 border-r border-border pr-4">

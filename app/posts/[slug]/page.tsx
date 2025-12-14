@@ -5,10 +5,9 @@ import rehypeHighlight from 'rehype-highlight';
 import { notFound } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
 import { Calendar, Tag } from 'lucide-react';
-import 'highlight.js/styles/github-dark.css'; // This works if highlight.js is a dep of rehype-highlight (usually is) or I need to install highlight.js explicitly? 
-// Actually rehype-highlight depends on highlight.js. But styles might not be exported directly from rehype-highlight.
-// I'll try importing from 'highlight.js/styles/github-dark.css' assuming highlight.js is hoisted or I should install it.
-// To be safe, I'll install highlight.js now.
+import 'highlight.js/styles/github-dark.css';
+import CommentSection from '@/components/CommentSection';
+import PostStats from '@/components/PostStats';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -43,6 +42,12 @@ export default async function Post({ params }: Props) {
           </span>
         </div>
         <h1 className="text-3xl md:text-4xl font-bold mb-4">{post.title}</h1>
+        
+        <PostStats 
+          slug={post.slug} 
+          date={post.date} 
+          contentLength={post.content.length} 
+        />
       </header>
 
       <div className="prose prose-slate dark:prose-invert max-w-none prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
@@ -53,6 +58,8 @@ export default async function Post({ params }: Props) {
           {post.content}
         </ReactMarkdown>
       </div>
+
+      <CommentSection slug={post.slug} />
     </article>
   );
 }

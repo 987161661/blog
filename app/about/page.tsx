@@ -24,8 +24,8 @@ export default function About() {
           你可以通过以下方式找到我：
         </p>
         <ul>
-          <li>Email: zian@example.com</li>
-          <li>Github: github.com/zian</li>
+          <li>Email: 987161661@qq.com 或 a987161661@gmail.com</li>
+          <li>Github: <a href="https://github.com/987161661" target="_blank" rel="noopener noreferrer">https://github.com/987161661</a></li>
         </ul>
       </div>
     </div>

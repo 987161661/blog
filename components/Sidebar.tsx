@@ -87,8 +87,10 @@ export default function Sidebar() {
          </div>
       </div>
 
-      {/* Tag Cloud */}
-      <TagCloud />
+      {/* Tag Cloud - Hidden on mobile */}
+      <div className="hidden md:block">
+        <TagCloud />
+      </div>
 
       {/* Recent Posts */}
       <div className="card">
