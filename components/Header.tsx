@@ -35,11 +35,11 @@ export default function Header() {
       </div>
 
       {/* 2. Main Header Area (Black Section) */}
-      <div className="bg-[#f7f5e8] dark:bg-[#2a2a2a] text-[#4a3e35] dark:text-white py-4 md:py-6 transition-colors duration-300">
-        <div className="container-custom flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-[#f7f5e8] dark:bg-[#2a2a2a] text-[#4a3e35] dark:text-white py-2 md:py-6 transition-colors duration-300">
+        <div className="container-custom flex flex-row items-center justify-between gap-1 md:gap-4">
           {/* Logo Area */}
-          <Link href="/" className="flex items-center gap-4 hover:opacity-90 transition-opacity">
-            <div className="relative w-12 h-12 md:w-16 md:h-16 shrink-0">
+          <Link href="/" className="flex items-center gap-2 md:gap-4 hover:opacity-90 transition-opacity shrink-0">
+            <div className="relative w-8 h-8 md:w-16 md:h-16 shrink-0">
                        <Image 
                          src="/logo.svg" 
                          alt="Logo" 
@@ -48,31 +48,31 @@ export default function Header() {
                        />
                     </div>
             <div className="flex flex-col items-start">
-              <h1 className="text-2xl md:text-4xl text-[#d4a017] dark:text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
-              <span className="text-[10px] md:text-xs text-[#00bfff] tracking-[0.2em] mt-1">ZiAn's Space</span>
+              <h1 className="text-lg md:text-4xl text-[#d4a017] dark:text-[#f0c20c] font-bold tracking-wider whitespace-nowrap" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
+              <span className="text-[10px] md:text-xs text-[#00bfff] tracking-[0.2em] mt-1 hidden md:block">ZiAn's Space</span>
             </div>
           </Link>
 
           {/* Icons Area - Blue Box: Smaller on mobile, unobtrusive */}
-          <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-[#7d7065] dark:text-[#ccc] w-full md:w-auto mt-2 md:mt-0 transform scale-90 md:scale-100 origin-center opacity-80 md:opacity-100">
+          <div className="flex flex-row items-center justify-end gap-2 md:gap-6 text-[#7d7065] dark:text-[#ccc] w-auto mt-0 opacity-100">
             <Link href="#" className="flex flex-col items-center group">
-              <Rss className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-orange-500 transition-colors" />
+              <Rss className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-orange-500 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">欢迎订阅</span>
             </Link>
             <Link href="#" className="flex flex-col items-center group">
-              <Mail className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-blue-400 transition-colors" />
+              <Mail className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-blue-400 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">个性邮箱</span>
             </Link>
             <Link href="#" className="flex flex-col items-center group">
-              <LayoutGrid className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-green-400 transition-colors" />
+              <LayoutGrid className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-green-400 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">频道汇总</span>
             </Link>
             <Link href="/latex" className="flex flex-col items-center group">
-              <Sigma className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-yellow-400 transition-colors" />
+              <Sigma className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-yellow-400 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">LaTex</span>
             </Link>
             <Link href="/about" className="flex flex-col items-center group">
-              <User className="h-5 w-5 md:h-8 md:w-8 mb-1 group-hover:text-red-400 transition-colors" />
+              <User className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-red-400 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">关于博主</span>
             </Link>
           </div>
