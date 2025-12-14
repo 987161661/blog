@@ -5,6 +5,7 @@ import ThemeToggle from './ThemeToggle';
 import SiteStats from './SiteStats';
 
 export default function Header() {
+  // Update: Mobile Layout & Stats Verification
   return (
     <div className="w-full font-sans">
       {/* 1. Top Bar (Top-most strip) */}
