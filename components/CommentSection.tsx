@@ -94,6 +94,59 @@ export default function CommentSection({ slug }: Props) {
         评论 ({comments.length})
       </h2>
 
+      {/* Comment Form - Only for logged in users */}
+      {isLoggedIn ? (
+        <form onSubmit={handleSubmit} className="mb-12 bg-secondary/20 p-6 rounded-lg">
+          <h3 className="text-lg font-semibold mb-4">发表评论</h3>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2 text-secondary-foreground">
+              用户名
+            </label>
+            <div className="w-full p-2 bg-background rounded border border-border text-muted-foreground">
+              {user?.name || 'User'}
+            </div>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="comment" className="block text-sm font-medium mb-2 text-secondary-foreground">
+              内容
+            </label>
+            <textarea
+              id="comment"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              className="w-full p-2 bg-background rounded border border-border focus:outline-none focus:ring-2 focus:ring-primary h-32"
+              placeholder="分享您的想法..."
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={!newComment.trim()}
+            className="px-6 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            提交评论
+          </button>
+        </form>
+      ) : (
+        <div className="mb-12 bg-secondary/20 p-8 rounded-lg text-center">
+          <p className="text-secondary-foreground mb-4">登录后即可参与评论</p>
+          <div className="flex justify-center gap-4">
+            <Link 
+              href="/login" 
+              className="px-6 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
+            >
+              登录
+            </Link>
+            <Link 
+              href="/register" 
+              className="px-6 py-2 border border-primary text-primary rounded hover:bg-primary/10 transition-colors"
+            >
+              注册
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Comment List */}
       <div className="space-y-6 mb-8">
         {loading ? (
