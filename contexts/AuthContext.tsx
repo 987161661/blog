@@ -70,6 +70,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         data: {
           name,
         },
+        // 显式指定重定向地址，优先使用线上域名，回退到当前域名
+        emailRedirectTo: process.env.NEXT_PUBLIC_SITE_URL || window.location.origin,
       },
     });
     return { error };
