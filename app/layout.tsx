@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import CursorEffect from "@/components/CursorEffect";
+import Providers from "@/components/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,24 +40,26 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${maShanZheng.variable} antialiased min-h-screen flex flex-col bg-accent/20`}
       >
-        <CursorEffect />
-        <Header />
-        
-        <main className="flex-grow container-custom py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Main Content Area (75%) */}
-            <div className="lg:col-span-3 space-y-8">
-              {children}
+        <Providers>
+          <CursorEffect />
+          <Header />
+          
+          <main className="flex-grow container-custom py-8">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+              {/* Main Content Area (75%) */}
+              <div className="lg:col-span-3 space-y-8">
+                {children}
+              </div>
+              
+              {/* Sidebar Area (25%) */}
+              <div className="lg:col-span-1">
+                <Sidebar />
+              </div>
             </div>
-            
-            {/* Sidebar Area (25%) */}
-            <div className="lg:col-span-1">
-              <Sidebar />
-            </div>
-          </div>
-        </main>
+          </main>
 
-        <Footer />
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

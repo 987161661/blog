@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,10 +16,10 @@ export default function Login() {
     e.preventDefault();
     // Mock login logic
     if (email && password) {
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userEmail', email);
-      // Force reload to update UI state in other components
-      window.location.href = '/'; 
+      // Extract username from email or just use 'Member'
+      const name = email.split('@')[0];
+      login(name, email);
+      router.push('/');
     }
   };
 

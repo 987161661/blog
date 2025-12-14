@@ -99,12 +99,13 @@ export default function Header() {
               { name: '奇妙物理', en: 'Physics' },
               { name: '技术分享', en: 'Tech' },
               { name: '创意项目', en: 'Projects' },
-              { name: '生活/情感', en: 'Life' },
+              { name: '生活/情感', en: 'Life', href: '/categories/Life' },
               { name: '好文精赏', en: 'Reading' },
               { name: '好物推荐', en: 'Goods' },
+              { name: '同好交流', en: 'Community', href: '/community' },
             ].map((item, index) => (
               <li key={item.name} className="text-center group border-r border-b md:border-b-0 border-[#333] md:last:border-r-0 md:flex-1">
-                <Link href={`/categories/${item.name}`} className="block py-1 md:py-3 hover:bg-[#f0c20c] hover:text-black transition-all duration-300 h-full flex flex-col justify-center">
+                <Link href={item.href || `/categories/${item.name}`} className="block py-1 md:py-3 hover:bg-[#f0c20c] hover:text-black transition-all duration-300 h-full flex flex-col justify-center">
                   <div className="font-bold text-xs md:text-base">{item.name}</div>
                   <div className="text-[8px] md:text-[10px] text-[#666] uppercase group-hover:text-black/70 hidden md:block">{item.en}</div>
                 </Link>

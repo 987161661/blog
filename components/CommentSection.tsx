@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { User, MessageSquare } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Comment {
   id: string;
@@ -18,18 +19,10 @@ interface Props {
 export default function CommentSection({ slug }: Props) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
+  const { isLoggedIn, user } = useAuth();
 
-  // Load comments and auth status on mount
+  // Load comments on mount
   useEffect(() => {
-    // Check auth
-    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    setIsLoggedIn(loggedIn);
-    if (loggedIn) {
-      setUsername(localStorage.getItem('userName') || localStorage.getItem('userEmail') || 'User');
-    }
-
     // Load comments for this post
     const storedComments = localStorage.getItem(`comments_${slug}`);
     if (storedComments) {
@@ -54,16 +47,16 @@ export default function CommentSection({ slug }: Props) {
 
     const comment: Comment = {
       id: Date.now().toString(),
-      user: username,
+      user: user?.name || 'User',
       content: newComment,
       date: new Date().toISOString().split('T')[0]
     };
 
-    const updatedComments = [...comments, comment];
+    const updatedComments = [comment, ...comments];
     setComments(updatedComments);
     setNewComment('');
     
-    // Save to local storage
+    // Save to localStorage
     localStorage.setItem(`comments_${slug}`, JSON.stringify(updatedComments));
   };
 
