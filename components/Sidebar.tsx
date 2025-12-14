@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { getAllPosts, getCategories } from '@/lib/posts';
 import { Search, Github, Mail, Rss, Phone, MessageCircle, MessageSquare, Gitlab } from 'lucide-react';
-import TagCloud from './TagCloud';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
+
+const TagCloud = dynamic(() => import('./TagCloud'), { ssr: false });
 
 export default function Sidebar() {
   const recentPosts = getAllPosts().slice(0, 5);
@@ -56,18 +58,18 @@ export default function Sidebar() {
          
          {/* Social Icons */}
          <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm text-secondary mb-6">
-            <a href="#" className="flex items-center gap-2 hover:text-primary transition-colors">
+            <button type="button" className="flex items-center gap-2 hover:text-primary transition-colors text-left">
                <Github className="h-4 w-4" /> GitHub
-            </a>
-            <a href="#" className="flex items-center gap-2 hover:text-primary transition-colors">
+            </button>
+            <button type="button" className="flex items-center gap-2 hover:text-primary transition-colors text-left">
                <Mail className="h-4 w-4" /> E-Mail
-            </a>
-            <a href="#" className="flex items-center gap-2 hover:text-primary transition-colors">
+            </button>
+            <button type="button" className="flex items-center gap-2 hover:text-primary transition-colors text-left">
                <Gitlab className="h-4 w-4" /> GitLab
-            </a>
-            <a href="#" className="flex items-center gap-2 hover:text-primary transition-colors">
+            </button>
+            <button type="button" className="flex items-center gap-2 hover:text-primary transition-colors text-left">
                <Rss className="h-4 w-4" /> RSS
-            </a>
+            </button>
          </div>
          
          {/* Contact Info */}

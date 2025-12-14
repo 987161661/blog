@@ -78,6 +78,12 @@ export default function CursorEffect() {
     window.addEventListener('mousemove', handleMouseMove);
 
     const animate = () => {
+      // Optimization: Stop animation if canvas is hidden (e.g. on mobile)
+      if (!canvas.offsetParent && window.innerWidth < 768) {
+        requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Interpolate between last position and current position to fill gaps
@@ -113,13 +119,15 @@ export default function CursorEffect() {
         }
       }
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
-    animate();
+    
+    let animationFrameId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 

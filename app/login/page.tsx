@@ -31,9 +31,9 @@ export default function Login() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="w-full max-w-md card relative animate-in fade-in zoom-in duration-300">
-        <Link href="/" className="absolute top-4 right-4 text-secondary hover:text-primary transition-colors">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 overflow-y-auto">
+      <div className="w-full max-w-md card relative animate-in fade-in zoom-in duration-300 bg-background my-8">
+        <Link href="/" className="absolute top-2 right-2 p-2 text-secondary hover:text-primary transition-colors z-10" aria-label="关闭">
           <X className="h-6 w-6" />
         </Link>
         <h1 className="text-2xl font-bold mb-6 text-center text-primary">会员登录</h1>
@@ -74,6 +74,9 @@ export default function Login() {
         <div className="mt-4 text-center text-sm">
           还没有账号？ <Link href="/register" className="text-primary hover:underline font-bold">立即注册</Link>
         </div>
+        <Link href="/" className="block w-full text-center py-2 border border-border rounded-md text-secondary hover:text-primary hover:border-primary transition-colors mt-4">
+          返回首页
+        </Link>
       </div>
     </div>
   );

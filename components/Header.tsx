@@ -38,11 +38,11 @@ export default function Header() {
             <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-2">登录</Link>
             <Link href="/donate" className="hover:text-[#d4a017] dark:hover:text-white px-2">打赏</Link>
             <Link href="/latex" className="hover:text-[#d4a017] dark:hover:text-white px-2">公式</Link>
-            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">天象</Link>
-            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">链接</Link>
-            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">时光</Link>
-            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">博览</Link>
-            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">归档</Link>
+            <button className="hover:text-[#d4a017] dark:hover:text-white px-2 cursor-pointer">天象</button>
+            <button className="hover:text-[#d4a017] dark:hover:text-white px-2 cursor-pointer">链接</button>
+            <button className="hover:text-[#d4a017] dark:hover:text-white px-2 cursor-pointer">时光</button>
+            <button className="hover:text-[#d4a017] dark:hover:text-white px-2 cursor-pointer">博览</button>
+            <Link href="/archives" className="hover:text-[#d4a017] dark:hover:text-white px-2">归档</Link>
           </div>
         </div>
       </div>
@@ -68,18 +68,18 @@ export default function Header() {
 
           {/* Icons Area - Blue Box: Smaller on mobile, unobtrusive */}
           <div className="flex flex-row items-center justify-end gap-2 md:gap-6 text-[#7d7065] dark:text-[#ccc] w-auto mt-0 opacity-100">
-            <Link href="#" className="flex flex-col items-center group">
+            <button className="flex flex-col items-center group cursor-pointer">
               <Rss className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-orange-500 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">欢迎订阅</span>
-            </Link>
-            <Link href="#" className="flex flex-col items-center group">
+            </button>
+            <button className="flex flex-col items-center group cursor-pointer">
               <Mail className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-blue-400 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">个性邮箱</span>
-            </Link>
-            <Link href="#" className="flex flex-col items-center group">
+            </button>
+            <button className="flex flex-col items-center group cursor-pointer">
               <LayoutGrid className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-green-400 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">频道汇总</span>
-            </Link>
+            </button>
             <Link href="/latex" className="flex flex-col items-center group">
               <Sigma className="h-4 w-4 md:h-8 md:w-8 mb-0 md:mb-1 group-hover:text-yellow-400 transition-colors" />
               <span className="text-[10px] md:text-xs hidden md:block">LaTex</span>
