@@ -5,14 +5,21 @@ import { Post } from '@/lib/posts';
 import { format, parseISO } from 'date-fns';
 import { Tag } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { calculateReadCount } from '@/lib/stats';
+import { calculateEstimatedReadCount, getRealViewCount } from '@/lib/stats';
 
 export default function PostCard({ post }: { post: Post }) {
   const date = parseISO(post.date);
   const [readCount, setReadCount] = useState<number | null>(null);
 
   useEffect(() => {
-    setReadCount(calculateReadCount(post.slug, post.date));
+    const fetchCount = async () => {
+      // 1. Get legacy base
+      const base = calculateEstimatedReadCount(post.slug, post.date);
+      // 2. Get real stats (PostCard only reads, does not increment)
+      const real = await getRealViewCount(post.slug);
+      setReadCount(base + real);
+    };
+    fetchCount();
   }, [post.slug, post.date]);
   
   return (
