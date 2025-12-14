@@ -22,7 +22,7 @@ export default function LaTeX() {
             
             <div>
               <h3 className="font-bold text-primary mb-2">块级公式</h3>
-              <code className="bg-black/30 px-2 py-1 rounded text-sm block mb-2">$$ \sum_{i=1}^n i = \frac{n(n+1)}{2} $$</code>
+              <code className="bg-black/30 px-2 py-1 rounded text-sm block mb-2">{`$$ \\sum_{i=1}^n i = \\frac{n(n+1)}{2} $$`}</code>
               <p className="text-secondary">效果：(求和公式展示)</p>
             </div>
           </div>
