@@ -8,19 +8,44 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function Register() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { signUp } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock register logic
+    setError('');
+    setLoading(true);
+
     if (name && email && password) {
-      login(name, email);
-      router.push('/');
+      const { error } = await signUp(email, password, name);
+      if (error) {
+        setError(error.message);
+      } else {
+        setSuccess(true);
+        // Optional: redirect after delay or let user read the success message
+      }
     }
+    setLoading(false);
   };
+
+  if (success) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+        <div className="w-full max-w-md card relative animate-in fade-in zoom-in duration-300 text-center py-10">
+           <h2 className="text-2xl font-bold mb-4 text-primary">注册成功！</h2>
+           <p className="mb-6">请检查您的邮箱完成验证（如果开启了邮箱验证），然后登录。</p>
+           <Link href="/login" className="bg-primary text-white px-6 py-2 rounded-md hover:opacity-90 font-bold">
+             前往登录
+           </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -29,6 +54,13 @@ export default function Register() {
           <X className="h-6 w-6" />
         </Link>
         <h1 className="text-2xl font-bold mb-6 text-center text-primary">会员注册</h1>
+
+        {error && (
+          <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded mb-4 text-sm">
+            {error}
+          </div>
+        )}
+
         <form className="space-y-4" onSubmit={handleRegister}>
           <div>
             <label className="block text-sm font-medium mb-1">用户名</label>
@@ -63,8 +95,8 @@ export default function Register() {
               required
             />
           </div>
-          <button type="submit" className="w-full bg-primary text-white py-2 rounded-md hover:opacity-90 transition-opacity font-bold shadow-md">
-            注册
+          <button type="submit" disabled={loading} className="w-full bg-primary text-white py-2 rounded-md hover:opacity-90 transition-opacity font-bold shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+            {loading ? '注册中...' : '注册'}
           </button>
         </form>
         <div className="mt-4 text-center text-sm">

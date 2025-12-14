@@ -8,19 +8,26 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login logic
+    setError('');
+    setLoading(true);
+
     if (email && password) {
-      // Extract username from email or just use 'Member'
-      const name = email.split('@')[0];
-      login(name, email);
-      router.push('/');
+      const { error } = await signIn(email, password);
+      if (error) {
+        setError(error.message);
+      } else {
+        router.push('/');
+      }
     }
+    setLoading(false);
   };
 
   return (
@@ -30,6 +37,13 @@ export default function Login() {
           <X className="h-6 w-6" />
         </Link>
         <h1 className="text-2xl font-bold mb-6 text-center text-primary">会员登录</h1>
+        
+        {error && (
+          <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded mb-4 text-sm">
+            {error}
+          </div>
+        )}
+
         <form className="space-y-4" onSubmit={handleLogin}>
           <div>
             <label className="block text-sm font-medium mb-1">邮箱</label>
@@ -53,8 +67,8 @@ export default function Login() {
               required
             />
           </div>
-          <button type="submit" className="w-full bg-primary text-white py-2 rounded-md hover:opacity-90 transition-opacity font-bold shadow-md">
-            登录
+          <button type="submit" disabled={loading} className="w-full bg-primary text-white py-2 rounded-md hover:opacity-90 transition-opacity font-bold shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+            {loading ? '登录中...' : '登录'}
           </button>
         </form>
         <div className="mt-4 text-center text-sm">

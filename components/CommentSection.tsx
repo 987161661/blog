@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { User, MessageSquare } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabaseClient';
 
 interface Comment {
   id: string;
-  user: string;
+  user_name: string;
   content: string;
-  date: string;
+  created_at: string;
 }
 
 interface Props {
@@ -20,44 +21,70 @@ export default function CommentSection({ slug }: Props) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
   const { isLoggedIn, user } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   // Load comments on mount
   useEffect(() => {
-    // Load comments for this post
-    const storedComments = localStorage.getItem(`comments_${slug}`);
-    if (storedComments) {
-      try {
-        setComments(JSON.parse(storedComments));
-      } catch (e) {
-        console.error('Failed to parse comments', e);
-      }
-    } else {
-      // Mock some initial comments if empty (optional, for demo)
-      if (slug === 'project-plan') {
-         setComments([
-           { id: '1', user: 'Visitor', content: '期待你的2026年计划！', date: '2025-12-14' }
-         ]);
-      }
-    }
+    fetchComments();
+
+    // Subscribe to new comments
+    const channel = supabase
+      .channel('comments_channel')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'comments',
+          filter: `slug=eq.${slug}`,
+        },
+        (payload) => {
+          setComments((prev) => [payload.new as Comment, ...prev]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [slug]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fetchComments = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('slug', slug)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching comments:', error);
+    } else {
+      setComments(data || []);
+    }
+    setLoading(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newComment.trim()) return;
 
-    const comment: Comment = {
-      id: Date.now().toString(),
-      user: user?.name || 'User',
-      content: newComment,
-      date: new Date().toISOString().split('T')[0]
-    };
+    // Use logged in user name or 'Guest'
+    const userName = user?.name || 'Guest';
 
-    const updatedComments = [comment, ...comments];
-    setComments(updatedComments);
-    setNewComment('');
-    
-    // Save to localStorage
-    localStorage.setItem(`comments_${slug}`, JSON.stringify(updatedComments));
+    const { error } = await supabase.from('comments').insert({
+      slug,
+      user_name: userName,
+      content: newComment,
+    });
+
+    if (error) {
+      alert('发表评论失败: ' + error.message);
+    } else {
+      setNewComment('');
+      // Optimistic update handled by subscription, or we can fetch again
+      // We rely on subscription for now
+    }
   };
 
   return (
@@ -69,15 +96,17 @@ export default function CommentSection({ slug }: Props) {
 
       {/* Comment List */}
       <div className="space-y-6 mb-8">
-        {comments.length > 0 ? (
+        {loading ? (
+           <p className="text-secondary">加载评论中...</p>
+        ) : comments.length > 0 ? (
           comments.map((comment) => (
             <div key={comment.id} className="bg-background/50 p-4 rounded-lg border border-border">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2 font-medium text-primary">
                   <User className="w-4 h-4" />
-                  {comment.user}
+                  {comment.user_name}
                 </div>
-                <div className="text-xs text-secondary">{comment.date}</div>
+                <div className="text-xs text-secondary">{new Date(comment.created_at).toLocaleDateString()}</div>
               </div>
               <p className="text-sm">{comment.content}</p>
             </div>
@@ -101,23 +130,21 @@ export default function CommentSection({ slug }: Props) {
                 required
               />
             </div>
-            <div className="flex justify-end">
-              <button 
-                type="submit" 
-                className="bg-primary text-white px-6 py-2 rounded-md hover:opacity-90 transition-opacity font-bold shadow-sm"
-              >
-                提交评论
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="bg-primary text-white px-6 py-2 rounded-md hover:opacity-90 transition-opacity font-bold shadow-sm"
+            >
+              提交评论
+            </button>
           </form>
         ) : (
           <div className="text-center py-6">
-            <p className="mb-4 text-lg">登录后参与讨论</p>
+            <p className="mb-4 text-secondary">请登录后发表评论</p>
             <div className="flex justify-center gap-4">
-              <Link href="/login" className="px-6 py-2 bg-primary text-white rounded-md hover:opacity-90 transition-opacity font-bold">
+              <Link href="/login" className="bg-primary text-white px-6 py-2 rounded-md hover:opacity-90 font-bold">
                 登录
               </Link>
-              <Link href="/register" className="px-6 py-2 border border-primary text-primary rounded-md hover:bg-primary/10 transition-colors font-bold">
+              <Link href="/register" className="border border-primary text-primary px-6 py-2 rounded-md hover:bg-primary/5 font-bold">
                 注册
               </Link>
             </div>
