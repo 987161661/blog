@@ -12,20 +12,20 @@ export default function ThemeToggle() {
     
     if (savedTheme === 'light') {
       setIsDark(false);
-      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
     } else {
       setIsDark(true);
-      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
     }
   }, []);
 
   const toggleTheme = () => {
     if (isDark) {
-      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
       setIsDark(false);
     } else {
-      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
       setIsDark(true);
     }

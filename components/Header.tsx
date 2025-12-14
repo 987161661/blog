@@ -7,27 +7,27 @@ export default function Header() {
   return (
     <div className="w-full font-sans">
       {/* 1. Top Bar (Top-most strip) */}
-      <div className="bg-[#505050] text-[#ccc] text-xs py-1">
+      <div className="bg-[#e8e4d9] dark:bg-[#505050] text-[#7d7065] dark:text-[#ccc] text-xs py-1 transition-colors duration-300">
         <div className="container-custom flex justify-between items-center">
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <span>唯有思考方能启迪智慧</span>
           </div>
-          <div className="hidden md:flex space-x-2 divide-x divide-[#666]">
-            <Link href="/login" className="hover:text-white px-2">登录</Link>
-            <Link href="#" className="hover:text-white px-2">打赏</Link>
-            <Link href="/latex" className="hover:text-white px-2">公式</Link>
-            <Link href="#" className="hover:text-white px-2">天象</Link>
-            <Link href="#" className="hover:text-white px-2">链接</Link>
-            <Link href="#" className="hover:text-white px-2">时光</Link>
-            <Link href="#" className="hover:text-white px-2">博览</Link>
-            <Link href="#" className="hover:text-white px-2">归档</Link>
+          <div className="hidden md:flex space-x-2 divide-x divide-[#b3a99f] dark:divide-[#666]">
+            <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-2">登录</Link>
+            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">打赏</Link>
+            <Link href="/latex" className="hover:text-[#d4a017] dark:hover:text-white px-2">公式</Link>
+            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">天象</Link>
+            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">链接</Link>
+            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">时光</Link>
+            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">博览</Link>
+            <Link href="#" className="hover:text-[#d4a017] dark:hover:text-white px-2">归档</Link>
           </div>
         </div>
       </div>
 
       {/* 2. Main Header Area (Black Section) */}
-      <div className="bg-[#2a2a2a] text-white py-6">
+      <div className="bg-[#f7f5e8] dark:bg-[#2a2a2a] text-[#4a3e35] dark:text-white py-6 transition-colors duration-300">
         <div className="container-custom flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo Area */}
           <Link href="/" className="flex items-center gap-4 hover:opacity-90 transition-opacity">
@@ -40,13 +40,13 @@ export default function Header() {
                        />
                     </div>
             <div className="flex flex-col items-start">
-              <h1 className="text-4xl text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
+              <h1 className="text-4xl text-[#d4a017] dark:text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
               <span className="text-xs text-[#00bfff] tracking-[0.2em] mt-1">ZiAn's Space</span>
             </div>
           </Link>
 
           {/* Icons Area */}
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-[#ccc] w-full md:w-auto mt-4 md:mt-0">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-[#7d7065] dark:text-[#ccc] w-full md:w-auto mt-4 md:mt-0">
             <Link href="#" className="flex flex-col items-center group">
               <Rss className="h-8 w-8 mb-1 group-hover:text-orange-500 transition-colors" />
               <span className="text-xs">欢迎订阅</span>
@@ -70,9 +70,9 @@ export default function Header() {
           </div>
 
           {/* Search/Welcome Box (Right-most) */}
-          <div className="bg-[#333] border border-[#444] p-3 rounded w-full md:w-64 text-xs text-[#999] relative hidden lg:block">
-            <div className="absolute top-0 right-0 w-0 h-0 border-t-[10px] border-r-[10px] border-t-white border-r-transparent transform rotate-90"></div>
-            <h3 className="text-white font-bold mb-1">欢迎你提交内容</h3>
+          <div className="bg-[#fdfbf5] dark:bg-[#333] border border-[#e6dfc8] dark:border-[#444] p-3 rounded w-full md:w-64 text-xs text-[#7d7065] dark:text-[#999] relative hidden lg:block transition-colors duration-300">
+            <div className="absolute top-0 right-0 w-0 h-0 border-t-[10px] border-r-[10px] border-t-[#d4a017] dark:border-t-white border-r-transparent transform rotate-90"></div>
+            <h3 className="text-[#4a3e35] dark:text-white font-bold mb-1">欢迎你提交内容</h3>
             <p className="leading-tight">
               欢迎访问“梓安的思维空间”，这里将与您共同探讨技术，回味人生百态；也期待大家的分享~
             </p>
@@ -81,9 +81,9 @@ export default function Header() {
       </div>
 
       {/* 3. Main Navigation Bar (Dark Strip) */}
-      <nav className="bg-[#1a1a1a] border-t border-[#333] border-b border-black">
+      <nav className="bg-[#e0dcd1] dark:bg-[#1a1a1a] border-t border-[#d4a017] dark:border-[#333] border-b border-[#c8c0b0] dark:border-black transition-colors duration-300">
         <div className="container-custom">
-          <ul className="flex flex-wrap text-[#ccc]">
+          <ul className="flex flex-wrap text-[#5c5248] dark:text-[#ccc]">
             {[
               { name: '奇思妙想', en: 'Ideas' },
               { name: '科幻解构', en: 'Sci-Fi' },

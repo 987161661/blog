@@ -1,8 +1,22 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Force class strategy for dark mode */
+@variant dark (&:where(.dark, .dark *));
+
 :root {
-  /* Dark Theme Default */
+  /* Light Theme Default (Warm/Eye-care) */
+  --background: #f7f5e8; /* Warm beige/paper color */
+  --foreground: #4a3e35; /* Dark brown/warm gray text */
+  --primary: #d4a017; /* Darker yellow/gold for better contrast on light bg */
+  --secondary: #7d7065; /* Warm gray */
+  --accent: #efeacc; /* Light warm accent */
+  --border: #e6dfc8; /* Warm border */
+  --card-bg: #fdfbf5; /* Very light cream for cards */
+}
+
+:root:where(.dark) {
+  /* Dark Theme Override */
   --background: #2a2a2a; /* Match header dark gray */
   --foreground: #e5e5e5; /* Light gray text */
   --primary: #f0c20c; /* Yellow accent from header logo */
@@ -10,17 +24,6 @@
   --accent: #333333; /* Slightly lighter bg for cards */
   --border: #444444; /* Dark border */
   --card-bg: #333333; /* Card background */
-}
-
-:root.light {
-  /* Light Theme */
-  --background: #f0f2f5;
-  --foreground: #333333;
-  --primary: #f0c20c;
-  --secondary: #666666;
-  --accent: #ffffff;
-  --border: #e0e0e0;
-  --card-bg: #ffffff;
 }
 
 @theme inline {
@@ -51,7 +54,7 @@ body {
 }
 
 .card {
-  background-color: var(--card-bg); /* Use card-bg */
+  background-color: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 1.5rem;
@@ -59,12 +62,32 @@ body {
 }
 
 .card:hover {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5); /* Darker shadow */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
   border-color: var(--primary);
 }
 
-/* Typography Overrides for Dark Mode */
+/* Typography Defaults (Light Mode) */
 .prose {
+  --tw-prose-body: #4a3e35;
+  --tw-prose-headings: #2c2520;
+  --tw-prose-lead: #5c5248;
+  --tw-prose-links: #d4a017;
+  --tw-prose-bold: #2c2520;
+  --tw-prose-counters: #7d7065;
+  --tw-prose-bullets: #b3a99f;
+  --tw-prose-hr: #e6dfc8;
+  --tw-prose-quotes: #2c2520;
+  --tw-prose-quote-borders: #e6dfc8;
+  --tw-prose-captions: #7d7065;
+  --tw-prose-code: #2c2520;
+  --tw-prose-pre-code: #4a3e35;
+  --tw-prose-pre-bg: #efeacc;
+  --tw-prose-th-borders: #b3a99f;
+  --tw-prose-td-borders: #e6dfc8;
+}
+
+/* Typography Dark Mode Override */
+.dark .prose {
   --tw-prose-body: #d4d4d4;
   --tw-prose-headings: #fff;
   --tw-prose-lead: #a3a3a3;
@@ -81,23 +104,4 @@ body {
   --tw-prose-pre-bg: #262626;
   --tw-prose-th-borders: #404040;
   --tw-prose-td-borders: #404040;
-}
-
-:root.light .prose {
-  --tw-prose-body: #374151;
-  --tw-prose-headings: #111827;
-  --tw-prose-lead: #4b5563;
-  --tw-prose-links: #f0c20c;
-  --tw-prose-bold: #111827;
-  --tw-prose-counters: #6b7280;
-  --tw-prose-bullets: #d1d5db;
-  --tw-prose-hr: #e5e7eb;
-  --tw-prose-quotes: #111827;
-  --tw-prose-quote-borders: #e5e7eb;
-  --tw-prose-captions: #6b7280;
-  --tw-prose-code: #111827;
-  --tw-prose-pre-code: #e5e7eb;
-  --tw-prose-pre-bg: #1f2937;
-  --tw-prose-th-borders: #d1d5db;
-  --tw-prose-td-borders: #e5e7eb;
 }
