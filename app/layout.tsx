@@ -24,6 +24,7 @@ const maShanZheng = Ma_Shan_Zheng({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://zianspace.xyz'),
   title: "梓安的思维空间",
   description: "记录个人心得，灵感巧思，经验总结，项目计划，技术分享",
 };
