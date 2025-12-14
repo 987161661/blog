@@ -2,9 +2,16 @@ import Link from 'next/link';
 import { Post } from '@/lib/posts';
 import { format, parseISO } from 'date-fns';
 import { Tag } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { calculateReadCount } from '@/lib/stats';
 
 export default function PostCard({ post }: { post: Post }) {
   const date = parseISO(post.date);
+  const [readCount, setReadCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    setReadCount(calculateReadCount(post.slug, post.date));
+  }, [post.slug, post.date]);
   
   return (
     <article className="flex gap-6 py-8 border-b border-border last:border-0 group">
@@ -37,7 +44,7 @@ export default function PostCard({ post }: { post: Post }) {
                 <Tag className="h-3 w-3" />
                 {post.category}
              </span>
-             <span>阅读: 1,234</span>
+             <span>阅读: {readCount !== null ? readCount : '...'}</span>
              <span>评论: 0</span>
           </div>
           <Link 

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Rss, Mail, LayoutGrid, Sigma, User, Search, Globe, Box, Archive } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import SiteStats from './SiteStats';
 
 export default function Header() {
   return (
@@ -12,6 +13,9 @@ export default function Header() {
           <div className="flex items-center gap-2 md:gap-4">
             <ThemeToggle />
             <span className="hidden md:inline">唯有思考方能启迪智慧</span>
+            <div className="hidden md:block pl-4 border-l border-[#b3a99f] dark:border-[#666]">
+              <SiteStats />
+            </div>
           </div>
           
           {/* Mobile Auth & Donate Buttons */}

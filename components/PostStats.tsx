@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Eye, Clock, User } from 'lucide-react';
+import { calculateReadCount, incrementReadCount } from '@/lib/stats';
 
 interface Props {
   slug: string;
@@ -19,36 +20,12 @@ export default function PostStats({ slug, date, contentLength }: Props) {
   useEffect(() => {
     setMounted(true);
     
-    // Calculate Days Since Creation
-    const postDate = new Date(date);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - postDate.getTime());
-    const daysSinceCreation = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-
-    // Generate deterministic "random" base number (1-20) based on slug to avoid hydration mismatch if possible,
-    // but user asked for random. To keep it consistent per session, we can just use Math.random() once on mount.
-    // User formula: random(1, 20) + days*3 + real_reads
-    const randomBase = Math.floor(Math.random() * 20) + 1;
-
-    // Get "Real Read Count" from localStorage (simulate real reads)
-    const storageKey = `views_${slug}`;
-    let realReads = 0;
-    try {
-      const stored = localStorage.getItem(storageKey);
-      realReads = stored ? parseInt(stored, 10) : 0;
-      
-      // Increment view count for this session/user
-      // To avoid infinite increment on strict mode re-renders, we could check a session flag, 
-      // but for simplicity let's just increment.
-      realReads += 1;
-      localStorage.setItem(storageKey, realReads.toString());
-    } catch (e) {
-      console.error('Local storage error', e);
-    }
-
-    const totalReads = randomBase + (daysSinceCreation * 3) + realReads;
-    setReadCount(totalReads);
-
+    // Increment count on view
+    incrementReadCount(slug);
+    
+    // Calculate total including the new increment
+    const total = calculateReadCount(slug, date);
+    setReadCount(total);
   }, [slug, date]);
 
   if (!mounted) {
