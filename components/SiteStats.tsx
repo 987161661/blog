@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getDaysSince, getPseudoRandom } from '@/lib/stats';
 
-const SITE_START_DATE = '2024-01-01'; // Define a start date for the site
+const SITE_START_DATE = '2025-12-01'; // Adjusted to a more recent date for realistic stats
 
 export default function SiteStats() {
   const [stats, setStats] = useState<{ registered: number; visitors: number } | null>(null);
