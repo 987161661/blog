@@ -10,20 +10,28 @@ export default function Header() {
     <div className="w-full font-sans">
       {/* 1. Top Bar (Top-most strip) */}
       <div className="bg-[#e8e4d9] dark:bg-[#505050] text-[#7d7065] dark:text-[#ccc] text-xs py-1 transition-colors duration-300">
-        <div className="container-custom flex justify-between items-center">
-          <div className="flex items-center gap-2 md:gap-4">
-            <ThemeToggle />
-            <span className="hidden md:inline">唯有思考方能启迪智慧</span>
+        <div className="container-custom flex flex-col md:flex-row justify-between items-center gap-1 md:gap-0">
+          <div className="flex items-center justify-between w-full md:w-auto gap-2 md:gap-4">
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <span className="hidden md:inline">唯有思考方能启迪智慧</span>
+            </div>
+            
+            {/* Mobile Auth & Donate Buttons (Moved here for better layout) */}
+            <div className="flex md:hidden items-center space-x-2">
+              <Link href="/register" className="hover:text-[#d4a017] dark:hover:text-white px-1">注册</Link>
+              <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-1">登录</Link>
+              <Link href="/donate" className="hover:text-[#d4a017] dark:hover:text-white px-1">打赏</Link>
+            </div>
+
             <div className="hidden md:block pl-4 border-l border-[#b3a99f] dark:border-[#666]">
               <SiteStats />
             </div>
           </div>
           
-          {/* Mobile Auth & Donate Buttons */}
-          <div className="flex md:hidden items-center space-x-2">
-            <Link href="/register" className="hover:text-[#d4a017] dark:hover:text-white px-1">注册</Link>
-            <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-1">登录</Link>
-            <Link href="/donate" className="hover:text-[#d4a017] dark:hover:text-white px-1">打赏</Link>
+          {/* Mobile Stats (Visible only on mobile, new line) */}
+          <div className="md:hidden w-full flex justify-center border-t border-[#b3a99f]/30 dark:border-[#666]/30 pt-1 mt-1">
+            <SiteStats />
           </div>
 
           <div className="hidden md:flex space-x-2 divide-x divide-[#b3a99f] dark:divide-[#666]">
