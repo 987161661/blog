@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Rss, Mail, LayoutGrid, Sigma, User, Search, Globe, Box, Archive } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
   return (
@@ -7,11 +8,14 @@ export default function Header() {
       {/* 1. Top Bar (Top-most strip) */}
       <div className="bg-[#505050] text-[#ccc] text-xs py-1">
         <div className="container-custom flex justify-between items-center">
-          <div>渴望成为一个小飞侠</div>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <span>渴望成为一个小飞侠</span>
+          </div>
           <div className="flex space-x-2 divide-x divide-[#666]">
             <Link href="/login" className="hover:text-white px-2">登录</Link>
             <Link href="#" className="hover:text-white px-2">打赏</Link>
-            <Link href="#" className="hover:text-white px-2">公式</Link>
+            <Link href="/latex" className="hover:text-white px-2">公式</Link>
             <Link href="#" className="hover:text-white px-2">天象</Link>
             <Link href="#" className="hover:text-white px-2">链接</Link>
             <Link href="#" className="hover:text-white px-2">时光</Link>
@@ -44,7 +48,7 @@ export default function Header() {
               <LayoutGrid className="h-8 w-8 mb-1 group-hover:text-green-400 transition-colors" />
               <span className="text-xs">频道汇总</span>
             </Link>
-            <Link href="#" className="flex flex-col items-center group">
+            <Link href="/latex" className="flex flex-col items-center group">
               <Sigma className="h-8 w-8 mb-1 group-hover:text-yellow-400 transition-colors" />
               <span className="text-xs">LaTex</span>
             </Link>

@@ -1,8 +1,12 @@
 import Link from 'next/link';
+import { X } from 'lucide-react';
 
 export default function Login() {
   return (
-    <div className="max-w-md mx-auto card mt-10">
+    <div className="max-w-md mx-auto card mt-10 relative">
+      <Link href="/" className="absolute top-4 right-4 text-secondary hover:text-primary transition-colors">
+        <X className="h-6 w-6" />
+      </Link>
       <h1 className="text-2xl font-bold mb-6 text-center">会员登录</h1>
       <form className="space-y-4">
         <div>
