@@ -32,13 +32,13 @@ export default function Header() {
           {/* Logo Area */}
           <Link href="/" className="flex items-center gap-4 hover:opacity-90 transition-opacity">
             <div className="relative w-16 h-16 shrink-0">
-               <Image 
-                 src="/logo.png" 
-                 alt="Logo" 
-                 fill
-                 className="object-contain"
-               />
-            </div>
+                       <Image 
+                         src="/logo.svg" 
+                         alt="Logo" 
+                         fill
+                         className="object-contain"
+                       />
+                    </div>
             <div className="flex flex-col items-start">
               <h1 className="text-4xl text-[#f0c20c] font-bold tracking-wider" style={{ fontFamily: 'var(--font-ma-shan-zheng), serif' }}>梓安的思维空间</h1>
               <span className="text-xs text-[#00bfff] tracking-[0.2em] mt-1">ZiAn's Space</span>
