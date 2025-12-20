@@ -272,7 +272,7 @@ export default function AdminPage() {
       setActiveTab('url');
   };
 
-  const handleSubmit = async (e: React.FormEvent | null, targetStatus: 'published' | 'draft' = 'published') => {
+  const handleSubmit = async (e: React.FormEvent | null, targetStatus: 'published' | 'draft' | 'scheduled' = 'published') => {
     if (e) e.preventDefault();
     setLoading(true);
 
@@ -282,7 +282,7 @@ export default function AdminPage() {
       // Final description logic (auto-generate if empty)
       const finalDescription = description || content.slice(0, 150).replace(/[#*`]/g, '') + '...';
 
-      let finalStatus = targetStatus;
+      let finalStatus: 'published' | 'draft' | 'scheduled' = targetStatus;
       let finalDate = new Date().toISOString();
 
       // Handle scheduled publish
