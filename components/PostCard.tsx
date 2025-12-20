@@ -9,7 +9,11 @@ import { calculateEstimatedReadCount, getRealViewCount, getRealCommentCount } fr
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function PostCard({ post }: { post: Post }) {
-  const date = parseISO(post.date);
+  let date = parseISO(post.date);
+  if (isNaN(date.getTime())) {
+    date = new Date(); // Fallback to now if invalid
+  }
+  
   const [readCount, setReadCount] = useState<number | null>(null);
   const [commentCount, setCommentCount] = useState<number>(0);
   const { user } = useAuth();
@@ -53,7 +57,7 @@ export default function PostCard({ post }: { post: Post }) {
         </div>
 
         <Link href={`/posts/${post.slug}`}>
-          <h2 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary group-hover:underline decoration-2 underline-offset-4 transition-colors leading-tight">
+          <h2 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary group-hover:underline decoration-2 underline-offset-4 transition-colors leading-tight break-words">
             {post.title}
           </h2>
         </Link>

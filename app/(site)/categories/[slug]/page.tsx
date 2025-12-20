@@ -1,17 +1,14 @@
-import { getAllPosts, getCategories } from '@/lib/posts';
-import PostCard from '@/components/PostCard';
-import { notFound } from 'next/navigation';
-import CategoryGuard from '@/components/CategoryGuard';
+import { getAllPosts, getCategories } from "@/lib/posts";
+import PostCard from "@/components/PostCard";
+import CategoryGuard from "@/components/CategoryGuard";
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface Props {
-  params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  const categories = await getCategories();
-  return categories.map((category) => ({
-    slug: category,
-  }));
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
 export default async function CategoryPage({ params }: Props) {

@@ -79,8 +79,10 @@ export default function CursorEffect() {
 
     const animate = () => {
       // Optimization: Stop animation if canvas is hidden (e.g. on mobile)
-      if (!canvas.offsetParent && window.innerWidth < 768) {
-        requestAnimationFrame(animate);
+      // Also check if user is on a small screen to completely disable the logic loop
+      if (!canvas.offsetParent || window.innerWidth < 768) {
+        // Check again in 500ms instead of running loop continuously
+        setTimeout(() => requestAnimationFrame(animate), 500);
         return;
       }
 
