@@ -273,6 +273,7 @@ export default function AdminPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent | null, targetStatus: 'published' | 'draft' | 'scheduled' = 'published') => {
+    // Vercel build fix: v2
     if (e) e.preventDefault();
     setLoading(true);
 
