@@ -11,7 +11,7 @@ export default function Footer() {
           <DonateButton />
         </div>
 
-        <p>&copy; {new Date().getFullYear()} 梓安的思维空间. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} 梓安的思维空间. All rights reserved. (v1.0.1)</p>
         <div className="mt-4 flex justify-center gap-6">
           <a href="/rss.xml" className="hover:text-primary transition-colors">RSS订阅</a>
         </div>
