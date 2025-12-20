@@ -282,7 +282,7 @@ export default function AdminPage() {
       // Final description logic (auto-generate if empty)
       const finalDescription = description || content.slice(0, 150).replace(/[#*`]/g, '') + '...';
 
-      let finalStatus: 'published' | 'draft' | 'scheduled' = targetStatus;
+      let finalStatus: string = targetStatus;
       let finalDate = new Date().toISOString();
 
       // Handle scheduled publish
