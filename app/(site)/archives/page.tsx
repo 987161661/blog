@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { getAllPosts } from '@/lib/posts';
 import { format, parseISO } from 'date-fns';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function Archives() {
   const posts = await getAllPosts();
   

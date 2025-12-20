@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }: Props) {
   const categoryName = decodedSlug === 'Life' ? '生活/情感' : decodedSlug;
   
   const allPosts = await getAllPosts();
-  const posts = allPosts.filter(post => post.category === categoryName);
+  const posts = allPosts.filter(post => post.category.trim() === categoryName.trim());
 
   return (
     <CategoryGuard category={categoryName}>
