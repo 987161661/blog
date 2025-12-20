@@ -6,7 +6,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const categories = getCategories();
+  const categories = await getCategories();
   return categories.map((category) => ({
     slug: category.split('/'),
   }));
@@ -15,7 +15,8 @@ export async function generateStaticParams() {
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug.join('/'));
-  const posts = getAllPosts().filter(post => post.category === decodedSlug);
+  const allPosts = await getAllPosts();
+  const posts = allPosts.filter(post => post.category === decodedSlug);
 
   return (
     <div className="space-y-6">

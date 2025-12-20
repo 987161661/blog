@@ -1,10 +1,26 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { Rss, Mail, LayoutGrid, Sigma, User, Search, Globe, Box, Archive } from 'lucide-react';
+import { Rss, Mail, LayoutGrid, Sigma, User, Search, Globe, Box, Archive, LogOut, PenTool } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import SiteStats from './SiteStats';
+import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
+  const { isLoggedIn, user, logout } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Check if user is admin (simple email check for UI)
+    if (user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  }, [user]);
+
   // Update: Mobile Layout & Stats Verification
   return (
     <div className="w-full font-sans">
@@ -19,8 +35,24 @@ export default function Header() {
             
             {/* Mobile Auth & Donate Buttons (Moved here for better layout) */}
             <div className="flex md:hidden items-center space-x-2">
-              <Link href="/register" className="hover:text-[#d4a017] dark:hover:text-white px-1">注册</Link>
-              <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-1">登录</Link>
+              {isLoggedIn ? (
+                <>
+                  <span className="text-[#d4a017] dark:text-[#f0c20c] px-1 truncate max-w-[80px]">{user?.name}</span>
+                  {isAdmin && (
+                    <Link href="/admin" className="hover:text-[#d4a017] dark:hover:text-white px-1">
+                      <PenTool className="h-3 w-3" />
+                    </Link>
+                  )}
+                  <button onClick={() => logout()} className="hover:text-[#d4a017] dark:hover:text-white px-1">
+                    <LogOut className="h-3 w-3" />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/register" className="hover:text-[#d4a017] dark:hover:text-white px-1">注册</Link>
+                  <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-1">登录</Link>
+                </>
+              )}
               <Link href="/donate" className="hover:text-[#d4a017] dark:hover:text-white px-1">打赏</Link>
             </div>
 
@@ -35,7 +67,21 @@ export default function Header() {
           </div>
 
           <div className="hidden md:flex space-x-2 divide-x divide-[#b3a99f] dark:divide-[#666]">
-            <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-2">登录</Link>
+            {isLoggedIn ? (
+              <div className="flex items-center space-x-2 px-2">
+                 <span className="text-[#d4a017] dark:text-[#f0c20c]">欢迎, {user?.name}</span>
+                 {isAdmin && (
+                   <Link href="/admin" className="hover:text-[#d4a017] dark:hover:text-white flex items-center gap-1">
+                     <PenTool className="h-3 w-3" />创作
+                   </Link>
+                 )}
+                 <button onClick={() => logout()} className="hover:text-[#d4a017] dark:hover:text-white cursor-pointer flex items-center gap-1">
+                   <LogOut className="h-3 w-3" />退出
+                 </button>
+              </div>
+            ) : (
+              <Link href="/login" className="hover:text-[#d4a017] dark:hover:text-white px-2">登录/注册</Link>
+            )}
             <Link href="/donate" className="hover:text-[#d4a017] dark:hover:text-white px-2">打赏</Link>
             <Link href="/latex" className="hover:text-[#d4a017] dark:hover:text-white px-2">公式</Link>
             <button className="hover:text-[#d4a017] dark:hover:text-white px-2 cursor-pointer">天象</button>

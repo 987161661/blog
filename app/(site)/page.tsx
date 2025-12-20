@@ -1,8 +1,8 @@
 import { getAllPosts } from "@/lib/posts";
 import PostCard from "@/components/PostCard";
 
-export default function Home() {
-  const posts = getAllPosts();
+export default async function Home() {
+  const posts = await getAllPosts();
 
   return (
     <div className="space-y-6">

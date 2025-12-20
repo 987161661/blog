@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { getAllPosts } from '@/lib/posts';
 import { format, parseISO } from 'date-fns';
 
-export default function Archives() {
-  const posts = getAllPosts();
+export default async function Archives() {
+  const posts = await getAllPosts();
   
   // Sort posts by date descending
   const sortedPosts = posts.sort((a, b) => 

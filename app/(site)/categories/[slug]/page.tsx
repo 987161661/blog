@@ -8,7 +8,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const categories = getCategories();
+  const categories = await getCategories();
   return categories.map((category) => ({
     slug: category,
   }));
@@ -21,7 +21,8 @@ export default async function CategoryPage({ params }: Props) {
   // Handle alias for "Life" to avoid URL encoding issues with "/"
   const categoryName = decodedSlug === 'Life' ? '生活/情感' : decodedSlug;
   
-  const posts = getAllPosts().filter(post => post.category === categoryName);
+  const allPosts = await getAllPosts();
+  const posts = allPosts.filter(post => post.category === categoryName);
 
   return (
     <CategoryGuard category={categoryName}>

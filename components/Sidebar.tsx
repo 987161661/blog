@@ -4,12 +4,12 @@ import { Search, Github, Mail, Rss, Phone, MessageCircle, MessageSquare, Gitlab 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
-const TagCloud = dynamic(() => import('./TagCloud'), { ssr: false });
+import TagCloudWrapper from './TagCloudWrapper';
 
-export default function Sidebar() {
-  const recentPosts = getAllPosts().slice(0, 5);
-  const posts = getAllPosts();
-  const categories = getCategories();
+export default async function Sidebar() {
+  const posts = await getAllPosts();
+  const recentPosts = posts.slice(0, 5);
+  const categories = await getCategories();
   
   // Calculate stats
   const postCount = posts.length;
@@ -91,7 +91,7 @@ export default function Sidebar() {
 
       {/* Tag Cloud - Hidden on mobile */}
       <div className="hidden md:block">
-        <TagCloud />
+        <TagCloudWrapper />
       </div>
 
       {/* Recent Posts */}

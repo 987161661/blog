@@ -5,11 +5,14 @@ import { Post } from '@/lib/posts';
 import { format, parseISO } from 'date-fns';
 import { Tag } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { calculateEstimatedReadCount, getRealViewCount } from '@/lib/stats';
+import { calculateEstimatedReadCount, getRealViewCount, getRealCommentCount } from '@/lib/stats';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function PostCard({ post }: { post: Post }) {
   const date = parseISO(post.date);
   const [readCount, setReadCount] = useState<number | null>(null);
+  const [commentCount, setCommentCount] = useState<number>(0);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -17,10 +20,22 @@ export default function PostCard({ post }: { post: Post }) {
       const base = calculateEstimatedReadCount(post.slug, post.date);
       // 2. Get real stats (PostCard only reads, does not increment)
       const real = await getRealViewCount(post.slug);
-      setReadCount(base + real);
+
+      const isAdmin = user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+      
+      if (isAdmin) {
+        setReadCount(real);
+      } else {
+        setReadCount(base + real);
+      }
+      
+      // 3. Get comment count
+      const comments = await getRealCommentCount(post.slug);
+      // console.log(`PostCard: ${post.slug} comments: ${comments}`);
+      setCommentCount(comments);
     };
     fetchCount();
-  }, [post.slug, post.date]);
+  }, [post.slug, post.date, user]);
   
   return (
     <article className="flex gap-6 py-8 border-b border-border last:border-0 group">
@@ -54,7 +69,7 @@ export default function PostCard({ post }: { post: Post }) {
                 {post.category}
              </span>
              <span>阅读: {readCount !== null ? readCount : '...'}</span>
-             <span>评论: 0</span>
+             <span>评论: {commentCount}</span>
           </div>
           <Link 
             href={`/posts/${post.slug}`}

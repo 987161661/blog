@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Eye, Clock, User } from 'lucide-react';
 import { incrementRealViewCount, getRealViewCount, calculateEstimatedReadCount } from '@/lib/stats';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Props {
   slug: string;
@@ -11,33 +12,40 @@ interface Props {
 }
 
 export default function PostStats({ slug, date, contentLength }: Props) {
+  const { user } = useAuth();
   const [readCount, setReadCount] = useState<number>(0);
+  const [realCount, setRealCount] = useState<number>(0);
   const [mounted, setMounted] = useState(false);
 
   // Calculate estimated reading time (assuming ~800 chars/min for fast reading/skimming as per user feedback)
   const readingTime = Math.max(1, Math.ceil(contentLength / 800));
 
+  // 1. Increment and fetch real stats once on mount
   useEffect(() => {
-    setMounted(true);
-    
-    // 1. Calculate base ("legacy") heat
-    const estimatedBase = calculateEstimatedReadCount(slug, date);
-
-    // 2. Fetch real stats and increment
-    const updateStats = async () => {
+    const initStats = async () => {
       // Increment first
       await incrementRealViewCount(slug);
       
       // Fetch latest real count
-      const realCount = await getRealViewCount(slug);
-      
-      // Combine: Base Heat + Real Clicks
-      // This ensures we don't start at 0, but every new click is real
-      setReadCount(estimatedBase + realCount);
+      const count = await getRealViewCount(slug);
+      setRealCount(count);
+      setMounted(true);
     };
 
-    updateStats();
-  }, [slug, date]);
+    initStats();
+  }, [slug]);
+
+  // 2. Calculate display count based on Admin status
+  useEffect(() => {
+    const isAdmin = user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+    const estimatedBase = calculateEstimatedReadCount(slug, date);
+
+    if (isAdmin) {
+      setReadCount(realCount);
+    } else {
+      setReadCount(estimatedBase + realCount);
+    }
+  }, [realCount, user, slug, date]);
 
   if (!mounted) {
     return (
@@ -68,7 +76,7 @@ export default function PostStats({ slug, date, contentLength }: Props) {
         <User className="w-4 h-4" />
         <span>作者：簪君</span>
       </div>
-      <div className="flex items-center gap-1" title="热度指数">
+      <div className="flex items-center gap-1" title={user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "真实阅读量" : "热度指数"}>
         <Eye className="w-4 h-4" />
         <span>阅读人数：{readCount}</span>
       </div>

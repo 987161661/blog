@@ -59,6 +59,25 @@ export async function getRealUserCount(): Promise<number> {
   }
 }
 
+// Get comment count via Supabase count
+export async function getRealCommentCount(slug: string): Promise<number> {
+  try {
+    const { count, error } = await supabase
+      .from('comments')
+      .select('*', { count: 'exact', head: true })
+      .eq('slug', slug);
+      
+    if (error) {
+      console.error(`Error fetching comment count for ${slug}:`, error);
+      return 0;
+    }
+    return count || 0;
+  } catch (e) {
+    console.error(`Exception fetching comment count for ${slug}:`, e);
+    return 0;
+  }
+}
+
 // Legacy function (kept for reference or hybrid use)
 export function calculateEstimatedReadCount(slug: string, date: string): number {
   const daysSinceCreation = getDaysSince(date);

@@ -1,9 +1,9 @@
 import { getCategories, getAllPosts } from "@/lib/posts";
 import Link from "next/link";
 
-export default function Categories() {
-  const categories = getCategories();
-  const posts = getAllPosts();
+export default async function Categories() {
+  const categories = await getCategories();
+  const posts = await getAllPosts();
 
   return (
     <div className="card">

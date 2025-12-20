@@ -8,7 +8,9 @@ interface AuthContextType {
   isLoggedIn: boolean;
   user: { name: string; email: string; id: string } | null;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, name: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, name: string) => Promise<{ data: any; error: any }>;
+  signInWithOtp: (phone: string) => Promise<{ error: any }>;
+  verifyOtp: (phone: string, token: string) => Promise<{ data: any; error: any }>;
   logout: () => Promise<void>;
 }
 
@@ -25,8 +27,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session?.user) {
         setIsLoggedIn(true);
         setUser({
-          name: session.user.user_metadata.name || session.user.email?.split('@')[0] || 'User',
-          email: session.user.email || '',
+          name: session.user.user_metadata.name || session.user.email?.split('@')[0] || session.user.phone || 'User',
+          email: session.user.email || session.user.phone || '',
           id: session.user.id
         });
       }
@@ -40,8 +42,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session?.user) {
         setIsLoggedIn(true);
         setUser({
-          name: session.user.user_metadata.name || session.user.email?.split('@')[0] || 'User',
-          email: session.user.email || '',
+          name: session.user.user_metadata.name || session.user.email?.split('@')[0] || session.user.phone || 'User',
+          email: session.user.email || session.user.phone || '',
           id: session.user.id
         });
       } else {
@@ -62,8 +64,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error };
   };
 
+  const signInWithOtp = async (phone: string) => {
+    const { error } = await supabase.auth.signInWithOtp({
+      phone,
+    });
+    return { error };
+  };
+
+  const verifyOtp = async (phone: string, token: string) => {
+    const { data, error } = await supabase.auth.verifyOtp({
+      phone,
+      token,
+      type: 'sms',
+    });
+    return { data, error };
+  };
+
   const signUp = async (email: string, password: string, name: string) => {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -74,7 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         emailRedirectTo: process.env.NEXT_PUBLIC_SITE_URL || window.location.origin,
       },
     });
-    return { error };
+    return { data, error };
   };
 
   const logout = async () => {
@@ -82,7 +100,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, signIn, signUp, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, signIn, signUp, signInWithOtp, verifyOtp, logout }}>
       {!loading && children}
     </AuthContext.Provider>
   );

@@ -1,11 +1,15 @@
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
 import { notFound } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
 import { Calendar, Tag } from 'lucide-react';
 import 'highlight.js/styles/github-dark.css';
+import 'katex/dist/katex.css';
 import CommentSection from '@/components/CommentSection';
 import PostStats from '@/components/PostStats';
 
@@ -14,7 +18,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -22,7 +26,7 @@ export async function generateStaticParams() {
 
 export default async function Post({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -52,8 +56,8 @@ export default async function Post({ params }: Props) {
 
       <div className="prose prose-slate dark:prose-invert max-w-none prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
         <ReactMarkdown 
-          remarkPlugins={[remarkGfm]} 
-          rehypePlugins={[rehypeHighlight]}
+          remarkPlugins={[remarkGfm, remarkMath]} 
+          rehypePlugins={[rehypeHighlight, rehypeKatex, rehypeRaw]}
         >
           {post.content}
         </ReactMarkdown>
